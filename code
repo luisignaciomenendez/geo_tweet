@@ -1,0 +1,43 @@
+geo_tweet<-function(lat,long,radius,data,date1,date2){
+  #Data is assumed to have the form reported in the search tweet API vs
+  #where the column geo.geo.coordinates contains exact geolocation:
+  
+  if(date1>date2){
+    stop("Initial date and final date are not correct")
+  }
+  #transform as dates:
+  
+  data$created_at<- strptime(data$created_at, "%Y-%m-%d %H:%M:%S")
+  
+  #1) Divide in two columns for latitude and longitude:
+  
+  data$geo.coordinates.coordinates<-gsub("\\[|\\]", "", 
+                                            data$geo.coordinates.coordinates)
+  
+  foo<-data.frame(do.call('rbind', 
+                          strsplit(as.character(data$geo.coordinates.coordinates),
+                                   ',',fixed=TRUE)))
+  
+  # two new columns added for the coordinates (named lng and lat by default)
+  data$lng<-as.numeric(foo$X1)
+  data$lat<-as.numeric(foo$X2)  
+  
+  #2) Select the radius around the point:
+  
+
+  data$distance<-(geosphere::distHaversine(cbind("longitude"=data$lng,
+                                                    "latitude"=data$lat), 
+                                              c(long,lat)))/1000<radius 
+  #this adds a column distance of logicals to compare distances
+  
+  #3) Filter by specific date:
+  
+  
+  date_subset<<-subset(data,eval(
+                      data$created_at>=as.POSIXct(date1)&
+                        data$created_at<=as.POSIXct(date2)))
+   date_subset
+
+    return(data)
+  # return(date_subset)
+}
