@@ -24,9 +24,9 @@ and export as .csv to import latter in R:
 <details open="open">
   <summary><h2 style="display: inline-block">Example </h2></summary>
 
-`dd<-geo_tweet(38.8977,-77.0365,1,blm_geo,"2020-06-01 00:00:00","2021-01-01 00:00:00")
-`
-This ouput stores the location only requisites in `dd` and both the location and data filtering in `date_subset`.
+`dd<-geo_tweet(38.8977,-77.0365,1,blm_geo,"2020-06-01 00:00:00","2021-01-01 00:00:00")`
+
+This ouput stores the location only requisites in `dd` and both the location and data filtering in `date_subset`. 
 
 
 
